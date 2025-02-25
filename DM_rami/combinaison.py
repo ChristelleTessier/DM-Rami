@@ -10,6 +10,11 @@ class Combinaison(_ListeCartes):
     def __init__(self,cartes = []):
         self.__cartes = cartes
 
+    @property
+    def Carte(self):
+        """Retourne la carte (lecture seule)."""
+        return self.__carte
+
     def __eq__(self,cartes):
         return True
 
