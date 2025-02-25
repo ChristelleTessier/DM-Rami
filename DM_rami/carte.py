@@ -48,6 +48,16 @@ class Carte:
     def COULEURS():
         return ("Pique", "Coeur", "Carreau", "Trêfle")
 
+    @property
+    def valeur(self):
+        """Retourne la valeur de la carte (lecture seule)."""
+        return self.__valeur
+
+    @property
+    def couleur(self):
+        """Retourne la couleur de la carte (lecture seule)."""
+        return self.__couleur
+
     def __repr__(self):
         """Représentation officiel"""
         return f"Carte({self.__valeur},{self.__couleur})"
