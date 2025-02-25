@@ -7,7 +7,7 @@ from carte import Carte
 
 class Defausse(_ListeCartes):
     """ """
-    def __init__(self,cartes):
+    def __init__(self, cartes):
         self.cartes = cartes
 
     def vider(self):
