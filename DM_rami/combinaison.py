@@ -24,7 +24,7 @@ class Combinaison():
     Exemple d'utilisation
 
     """
-    def __init__(self,cartes ):
+    def __init__(self, cartes):
         if not isinstance(cartes, tuple):
                 raise TypeError("L'argument 'cartes' doit être un tuple de carte.")
         for carte in cartes:
@@ -49,6 +49,11 @@ class Combinaison():
     def __eq__(self, other):
         if not isinstance(other, tuple):
             return False
+            # pour moi il manque que si les deux combinaisons sont vides, elles sont égales:
+         if not self.__cartes and not other.__cartes:
+            return True
+             # pour les comparer, il faut que les deux combinaison soient dans le même ordre
+            #  sinon il y a des combinaisons qui vont être considérées comme non égales.
         return self.cartes == other.cartes
 
     def __repr__(self):
