@@ -55,3 +55,17 @@ class Carte:
     def __str__(self):
         """Convertion en chaine de caractère"""
         return f"{self.__valeur} de {self.__couleur.lower()}"
+
+    def __repr__(self):
+        """Retourne la représentation officielle de la carte."""
+        return f"Carte('{self.valeur}', '{self.couleur}')"
+
+    def __eq__(self, other):
+        """Vérifie si deux cartes sont égales."""
+        if isinstance(other, Carte):
+            return self.valeur == other.valeur and self.couleur == other.couleur
+        return False
+
+    def __hash__(self):
+        """Retourne un hash basé sur la représentation officielle de la carte."""
+        return hash(repr(self))
