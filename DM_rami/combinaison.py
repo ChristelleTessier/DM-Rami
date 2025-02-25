@@ -1,11 +1,10 @@
 """Implémentation de la classe Combinaison."""
+import copy
 
-
-from base import _ListeCartes
 from carte import Carte
 
 
-class Combinaison(_ListeCartes):
+class Combinaison():
     """Figure du rami (brelan, carré, suite).
 
     Sous classe de Main,
@@ -25,34 +24,94 @@ class Combinaison(_ListeCartes):
     Exemple d'utilisation
 
     """
-    def __init__(self,cartes = []):
+    def __init__(self,cartes ):
+        if not isinstance(cartes, tuple):
+                raise TypeError("L'argument 'cartes' doit être un tuple de carte.")
+        for carte in cartes:
+                if not isinstance(carte, Carte):
+                    raise TypeError("L'argument 'cartes' doit être un tuple de carte.")
         self.__cartes = cartes
 
-    @property
-    def Carte(self):
-        """Retourne la carte (lecture seule)."""
-        return self.__carte
+    @staticmethod
+    def ORDRE():
+        return {"As" : 1, "2" : 2, "3" : 3, "4" : 4, "5" : 5, "6" : 6, "7" : 7, "8" : 8,
+              "9" : 9, "10" : 10, "Valet" : 11, "Dame" : 12, "Roi" : 13}
 
-    def __eq__(self,cartes):
-        return True
+    @staticmethod
+    def POINT():
+        return {"As" : 1, "2" : 2, "3" : 3, "4" : 4, "5" : 5, "6" : 6, "7" : 7, "8" : 8,
+              "9" : 9, "10" : 10, "Valet" : 11, "Dame" : 11, "Roi" : 11}
+
+    @property
+    def cartes(self):
+        return copy.deepcopy(self.__cartes)
+
+    def __eq__(self, other):
+        if not isinstance(other, tuple):
+            return False
+        return self.cartes == other.cartes
+
+    def __repr__(self):
+        cartes_repr = [carte.__repr__() for carte in self.__cartes]
+        return "Combinaison(" + ", ".join(cartes_repr) + ")"
 
     def __str__(self):
-        return 1
+        cartes_str = [carte.__str__() for carte in self.__cartes]
+        return "(" + ", ".join(cartes_str) + ")"
 
     def __len__(self):
-        return 1
+        return len(self.__cartes)
 
     def est_brelan(self):
-        return 1
+        if len(self) != 3:
+            return False
+        valeurs = set([carte.valeur for carte in self.__cartes])
+        couleurs = set([carte.couleur for carte in self.__cartes])
+        if len(valeurs) == 1 and len(couleurs) == 3:
+            return True
+        else :
+            return False
 
-    def est_carre(self):
-        return 1
+    def est_carree(self):
+        if len(self) != 4:
+            return False
+        valeurs = set([carte.valeur for carte in self.cartes])
+        couleurs = set([carte.couleur for carte in self.__cartes])
+        if len(valeurs) == 1 and len(couleurs) == 4:
+            return True
+        else :
+            return False
 
     def est_sequence(self):
-        return 1
+        if len(self) < 3:
+            return False
+        couleurs = set([carte.couleur for carte in self.cartes])
+        if len(couleurs) != 1:
+            return False
+
+        valeurs = [self.ORDRE()[carte.valeur] for carte in self.cartes]
+        valeurs.sort()
+
+        # Cas particulier de la suite D, R, As
+        if valeurs == [1, 12, 13]:  # Correction ici
+            return True
+
+        prec = valeurs[0]
+        for valeur in valeurs[1:]:
+            if valeur - prec != 1:
+                return False
+            prec = valeur
+
+        return True
+
 
     def est_valide(self):
-        return 1
+        return self.est_brelan() or self.est_carree() or self.est_sequence()
 
     def calcule_nombre_points(self):
-        return 1
+        valeurs = [self.ORDRE()[carte.valeur] for carte in self.cartes]
+        points = [self.POINT()[carte.valeur] for carte in self.cartes]
+        point = sum(points)
+        if self.est_sequence() and 13 in valeurs:
+            point += 10
+        return point
