@@ -56,7 +56,8 @@ class _ListeCartes():
     def __eq__(self, other):
         if not isinstance(other, _ListeCartes):
             return False
-        return self.cartes == other.cartes
+        return sorted(self.cartes) == sorted(other.cartes)
+        # j'ai modifié car il faut que les cartes soient rangé dans l'ordre
 
     def __len__(self):
         return len(self.__cartes)
