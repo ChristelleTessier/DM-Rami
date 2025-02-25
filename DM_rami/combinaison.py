@@ -55,6 +55,7 @@ class Combinaison():
              # pour les comparer, il faut que les deux combinaison soient dans le même ordre
             #  sinon il y a des combinaisons qui vont être considérées comme non égales.
         return self.cartes == other.cartes
+        #return sorted(self.cartes) == sorted(other.cartes), il ne faut pas self.__cartes et orther.__cartes?, ce n'est pas privé 
 
     def __repr__(self):
         cartes_repr = [carte.__repr__() for carte in self.__cartes]
@@ -63,6 +64,11 @@ class Combinaison():
     def __str__(self):
         cartes_str = [carte.__str__() for carte in self.__cartes]
         return "(" + ", ".join(cartes_str) + ")"
+        #la méthode spéciale __str__() de la classe Combinaison renvoie la représentation informelle d’une combinai-
+        #son, correspondant au tuple de la représentation informelle de chaque carte. Par exemple, la représentation in-
+        #formelle de Combinaison((Carte('As', 'Pique'), Carte('As', 'Carreau'), Carte('As', 'Trêfle')))
+        #est "(As de pique, As de carreau, As de trêfle)".
+        # j'aurai mis une virgule et non un + entre les deux.
 
     def __len__(self):
         return len(self.__cartes)
