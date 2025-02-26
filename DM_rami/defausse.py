@@ -7,8 +7,10 @@ from carte import Carte
 
 class Defausse(_ListeCartes):
     """ """
-    def __init__(self, cartes):
-        self.cartes = cartes
+    def __init__(self, cartes = []):
+        """ Constructeur """
+        super().__init__(cartes) # Utiliser le constructeur de la classe mère (_ListeCartes)
+        self.__cartes = cartes
 
     def vider(self):
         return 1

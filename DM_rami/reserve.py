@@ -26,8 +26,8 @@ class Reserve(_ListeCartes):
     """
 
     def __init__(self, cartes = None):
-        """ COnstructeur """
-        super().__init__(cartes) # Utiliser le constreur de la classe mère (_ListeCartes)
+        """ Constructeur """
+        super().__init__(cartes) # Utiliser le constructeur de la classe mère (_ListeCartes)
         self.__cartes = cartes
 
     def distribuer(self, nb_joueur, idx_premier_joueur, n_cartes = "14/15"):
