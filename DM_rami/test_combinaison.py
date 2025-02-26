@@ -7,12 +7,15 @@ from combinaison import Combinaison
 
 def test_init():
     """Test du constructeur de Combinaison."""
+    #GIVEN
     c1 = Carte("As", "Pique")
     c2 = Carte("Roi", "Pique")
     c3 = Carte("Dame", "Pique")
 
+    #WHEN
     combi = Combinaison((c1, c2, c3))
 
+    #THEN
     assert isinstance(combi, Combinaison)
     assert len(combi) == 3
 
@@ -25,14 +28,17 @@ def test_init():
 
 def test_eq():
     """Test de l'égalité entre combinaisons."""
+    #GIVEN
     c1 = Carte("As", "Pique")
     c2 = Carte("Roi", "Pique")
     c3 = Carte("Dame", "Pique")
 
+    #WHEN
     combi1 = Combinaison((c1, c2, c3))
     combi2 = Combinaison((c1, c2, c3))
     combi3 = Combinaison((c3, c2, c1))  # Ordre différent
 
+    #THEN
     assert combi1 == combi2
     assert combi1 != combi3
     assert combi1 != "string"  # Comparaison avec un autre type
