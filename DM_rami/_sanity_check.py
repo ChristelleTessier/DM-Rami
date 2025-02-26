@@ -5,7 +5,7 @@ from inspect import ismethod
 
 from base import _ListeCartes
 from carte import Carte
-from combinaison import Combinaison
+from combinaisonv2 import Combinaison
 from defausse import Defausse
 from main import Main
 from reserve import Reserve

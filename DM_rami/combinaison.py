@@ -50,12 +50,12 @@ class Combinaison():
         if not isinstance(other, tuple):
             return False
             # pour moi il manque que si les deux combinaisons sont vides, elles sont égales:
-         if not self.__cartes and not other.__cartes:
+        if not self.__cartes and not other.__cartes:
             return True
              # pour les comparer, il faut que les deux combinaison soient dans le même ordre
             #  sinon il y a des combinaisons qui vont être considérées comme non égales.
         return self.cartes == other.cartes
-        #return sorted(self.cartes) == sorted(other.cartes), il ne faut pas self.__cartes et orther.__cartes?, c'est privé 
+        #return sorted(self.cartes) == sorted(other.cartes), il ne faut pas self.__cartes et orther.__cartes?, c'est privé
 
     def __repr__(self):
         cartes_repr = [carte.__repr__() for carte in self.__cartes]

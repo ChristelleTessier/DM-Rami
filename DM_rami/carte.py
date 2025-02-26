@@ -1,22 +1,28 @@
 """Implémentation de la classe Carte."""
 
-
 class Carte:
     """Definition d'une carte d'un jeu de 52 cartes.
 
     Parameters
     ----------
     valeur : 2,3,4,5,6,7,8,9,10,V,D,R,1
-    valeur de la carte
+        valeur de la carte
     couleur : Pique, Coeur, Carreau, Trêfle
-    couleur de la carte
+        couleur de la carte
 
     Attributes
     ----------
-    valeurs : liste des valeurs possibles
-    ["As", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Valet", "Dame", "Roi"]
-    couleurs : liste des couleurs possibles
-    ["Pique", "Coeur", "Carreau", "Trêfle"]
+    VALEURS : liste des valeurs possibles
+        ["As", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Valet", "Dame", "Roi"]
+    COULEURS : liste des couleurs possibles
+        ["Pique", "Coeur", "Carreau", "Trêfle"]
+    ORDRE : dictionnaire de l'ordre des cartes (l'as est initialisé à 1)
+        {"As": 1, "2": 2, "3": 3, "4": 4, "5": 5, "6": 6, "7": 7, "8": 8,
+                "9": 9, "10": 10, "Valet": 11, "Dame": 12, "Roi": 13}
+    POINT : dictionnaire des points de chaque cartes (l'as est initialisé à 11)
+        {"As": 11, "2": 2, "3": 3, "4": 4, "5": 5, "6": 6, "7": 7, "8": 8,
+                "9": 9, "10": 10, "Valet": 11, "Dame": 11, "Roi": 11}
+
     Examples
     --------
     Exemple d'utilisation
@@ -26,11 +32,12 @@ class Carte:
 
     """
 
+
     def __init__(self, valeur, couleur):
         """Constructeur"""
-        if not isinstance(valeur,str):
+        if not isinstance(valeur, str):
             raise TypeError(f"Le type de la valeur : {valeur} n'est pas correct")
-        if not isinstance(couleur,str):
+        if not isinstance(couleur, str):
             raise TypeError(f"Le type de la couleur : {couleur} n'est pas correct")
         if valeur not in Carte.VALEURS():
             raise ValueError(f"La valeur {valeur} n'est pas correcte")
@@ -39,14 +46,26 @@ class Carte:
         self.__couleur = couleur
         self.__valeur = valeur
 
-    @staticmethod
-    def VALEURS():
+    @classmethod
+    def VALEURS(cls):
         return ("As", "2", "3", "4", "5", "6", "7", "8", "9", "10",
-                           "Valet", "Dame", "Roi")
+                "Valet", "Dame", "Roi")
 
-    @staticmethod
-    def COULEURS():
+    @classmethod
+    def COULEURS(cls):
         return ("Pique", "Coeur", "Carreau", "Trêfle")
+
+    # Méthode ordre pour traiter la combinaison séquence
+    @classmethod
+    def ORDRE(cls):
+        return {"As": 1, "2": 2, "3": 3, "4": 4, "5": 5, "6": 6, "7": 7, "8": 8,
+                "9": 9, "10": 10, "Valet": 11, "Dame": 12, "Roi": 13}
+
+    # Méthode point pour déterminer les points dans combinaison et ...
+    @classmethod
+    def POINT(cls):
+        return {"As": 11, "2": 2, "3": 3, "4": 4, "5": 5, "6": 6, "7": 7, "8": 8,
+                "9": 9, "10": 10, "Valet": 11, "Dame": 11, "Roi": 11}
 
     @property
     def valeur(self):
