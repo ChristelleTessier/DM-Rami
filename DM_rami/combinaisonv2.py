@@ -44,7 +44,7 @@ class Combinaison():
         # 2. Pour moi la combinaison ne peut pas être vide -> a vérifier
         # 3. Pas besoin de self.__cartes = orther.__cartes
         # car on a créer la propiété cartes juste au dessus
-        if not isinstance(other, tuple):
+        if not isinstance(other.cartes, tuple):
             return False
         if len(other)==0 and len(self)==0:
             return True
