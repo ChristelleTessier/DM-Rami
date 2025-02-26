@@ -4,6 +4,7 @@ from carte import Carte
 from base import _ListeCartes
 from reserve import Reserve
 from defausse import Defausse
+from combinaison import Combinaison
 
 
 class Main(_ListeCartes):
@@ -28,29 +29,32 @@ class Main(_ListeCartes):
     def piocher(self, reserve):
         if not isinstance(reserve, Reserve):
             raise TypeError("reserve représente la reserve de carte")
-        self.ajouter_carte(reserve.retirer_carte())
+        self.ajouter_carte(reserve.retirer_carte(len(self)-1))
 
     def jeter(self, indice, defausse):
         if not isinstance(indice, int):
             raise TypeError("Indice doit etre un entier compris entre 0 et "
-                            f"{len(self)-1}, {indice} n'est pas valide")
+                            f"{len(self)-1}")
         if indice < 0 or indice > len(self):
             raise ValueError("Indice doit etre un entier compris entre 0 et "
-                            f"{len(self)-1}, {indice} n'est pas valide")
+                            f"{len(self)-1}")
         if not isinstance(defausse,Defausse):
             raise TypeError("defausse représente la defausse de carte")
         carte = self.retirer_carte(indice)
         defausse.ajouter_carte(carte)
 
     def poser(self, indices_combinaison, premiere_pose):
+        # Lève l'erreur de type indices_combinaison
         if not isinstance(indices_combinaison,list):
             raise TypeError("indices_combinaison doit être une liste de liste d'entier")
         ensemble_indice = set()
         nb_indice = 0
         for combinaison in indices_combinaison:
+            # Lève l'erreur de type indices_combinaison
             if not isinstance(combinaison,list):
                 raise TypeError(
                     "indices_combinaison doit être une liste de liste d'entier")
+            # Lève l'erreur de type/Valeurs indices
             for indice in combinaison:
                 if not isinstance(indice,int):
                     raise TypeError(
@@ -62,10 +66,32 @@ class Main(_ListeCartes):
                         f"et {len(self)-1}")
                 ensemble_indice.append(indice)
                 nb_indice += 1
+        # Lève l'erreur de valeur indices tous différent
         if len(ensemble_indice) != nb_indice:
             raise ValueError("Tous les indices doivent être différent")
+        # Lève l'erreur de type premiere_pose
         if not isinstance(premiere_pose, bool):
             raise TypeError("Premiere_pose doit être un booléen")
+        # Lève l'erreur si au moins une combinaison pas valable et ou pas de suite ou
+        # pas assez de point
+        val_sequ = 0
+        nb_point = 0
+        list_comb = []
+        for combinaison in indices_combinaison:
+            comb = Combinaison()
+            # Récupérer toutes les cartes de la combinaison sans les retirer de la main
+            # et en faire un tuple
+            for indice in combinaison:
+                comb.append(self.cartes[indice])
+            if not comb.est_valide():
+                raise ValueError(f"{comb} nest pas une combinaison valide")
+            if comb.est_sequence:
+                val_sequ = 1
+            nb_point += comb.calcule_nombre_points()
+            list_comb.append(comb)
+        if val_sequ == 0:
+            raise ValueError("Il n'y a pas de suite")
+        if nb_point < 52:
+            raise ValueError("Il faut au moins 51 points pour poser")
 
-
-        return 1
+        return list_comb, nb_point
