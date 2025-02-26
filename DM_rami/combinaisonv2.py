@@ -46,6 +46,8 @@ class Combinaison():
         # car on a créer la propiété cartes juste au dessus
         if not isinstance(other, tuple):
             return False
+        if len(other)==0 and len(self)==0:
+            return True
         return self.cartes == other.cartes
 
     def __repr__(self):
