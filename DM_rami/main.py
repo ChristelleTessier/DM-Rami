@@ -64,7 +64,7 @@ class Main(_ListeCartes):
                     raise ValueError(
                         "les indices doivent être des nombres entiers compris entre 0 "
                         f"et {len(self)-1}")
-                ensemble_indice.append(indice)
+                ensemble_indice.add(indice)
                 nb_indice += 1
         # Lève l'erreur de valeur indices tous différent
         if len(ensemble_indice) != nb_indice:
@@ -78,20 +78,22 @@ class Main(_ListeCartes):
         nb_point = 0
         list_comb = []
         for combinaison in indices_combinaison:
-            comb = Combinaison()
+            comb_liste = _ListeCartes([])
             # Récupérer toutes les cartes de la combinaison sans les retirer de la main
             # et en faire un tuple
             for indice in combinaison:
-                comb.append(self.cartes[indice])
+                comb_liste.ajouter_carte(self.cartes[indice])
+            # Transformation en tuple
+            comb = Combinaison(tuple(comb_liste.cartes))
             if not comb.est_valide():
-                raise ValueError(f"{comb} nest pas une combinaison valide")
+                raise ValueError(f"{comb.__str__()} n'est pas une combinaison valide")
             if comb.est_sequence:
                 val_sequ = 1
             nb_point += comb.calcule_nombre_points()
             list_comb.append(comb)
-        if val_sequ == 0:
+        if val_sequ == 0 and premiere_pose:
             raise ValueError("Il n'y a pas de suite")
-        if nb_point < 52:
-            raise ValueError("Il faut au moins 51 points pour poser")
+        if nb_point < 52 and premiere_pose:
+            raise ValueError("Pour la 1ere pose il faut au moins 51 points pour poser")
 
         return list_comb, nb_point

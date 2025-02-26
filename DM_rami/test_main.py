@@ -2,8 +2,6 @@
 
 import re
 import pytest
-from carte import Carte
-from base import _ListeCartes
 from reserve import Reserve
 from defausse import Defausse
 from combinaison import Combinaison
@@ -82,7 +80,7 @@ def reserve():
     ],
 )
 def test_liste_cartes_piocher_resultat(main,reserve,
-                                 Valeur_attendue_reserve,Valeur_attendue_main):
+                                 Valeur_attendue_main,Valeur_attendue_reserve):
     main.piocher(reserve)
     assert main == Valeur_attendue_main
     assert reserve == Valeur_attendue_reserve
@@ -98,8 +96,84 @@ def test_liste_cartes_piocher_resultat(main,reserve,
          "Indice doit etre un entier compris entre 0 et 2"],
         [5,Defausse([]),ValueError,
          "Indice doit etre un entier compris entre 0 et 2"],
+        [1, pytest.as_coeur,TypeError,
+        "defausse représente la defausse de carte"],
+        [1,(pytest.as_coeur),TypeError,
+        "defausse représente la defausse de carte"]
+
     ],
 )
 def test_erreur_piocher(main, indice, defausse, type_erreur, message_erreur):
     with pytest.raises(type_erreur, match=re.escape(message_erreur)):
         main.jeter(indice,defausse)
+
+# Test valeur
+@pytest.fixture
+def defausse():
+    return Defausse([pytest.deux_coeur])
+
+@pytest.mark.parametrize(
+    "indice,Valeur_attendue_main,Valeur_attendue_defausse",
+    [[0,Main([pytest.as_trefle,pytest.as_carreau]),
+    Defausse([pytest.deux_coeur,pytest.as_coeur])],
+    [1,Main([pytest.as_coeur,pytest.as_carreau]),
+    Defausse([pytest.deux_coeur,pytest.as_trefle])],
+    [2,Main([pytest.as_coeur,pytest.as_trefle]),
+    Defausse([pytest.deux_coeur,pytest.as_carreau])],
+    ],
+)
+def test_liste_cartes_jeter_resultat(main,defausse,indice,
+                                 Valeur_attendue_main,Valeur_attendue_defausse):
+    main.jeter(indice,defausse)
+    assert main == Valeur_attendue_main
+    assert defausse == Valeur_attendue_defausse
+
+# Test poser
+# Test erreur
+@pytest.fixture
+def main_pose():
+    return Main([pytest.roi_coeur, pytest.roi_carreau, pytest.roi_trefle,
+                  pytest.huit_coeur,pytest.neuf_coeur, pytest.dix_coeur])
+
+# Test de type, et test de valeur sur les indices (valeur, pas de double)
+# et combinaison(s) valident
+@pytest.mark.parametrize(
+    "indices_combinaison, premiere_pose, type_erreur, message_erreur",
+    [
+        [1,True,TypeError,"indices_combinaison doit être une liste de liste d'entier"],
+        [[1,2],True,TypeError,
+         "indices_combinaison doit être une liste de liste d'entier"],
+        [[["a"]],True,TypeError,
+         "les indices doivent être des nombres entiers compris entre 0 et 5"],
+        [[[1,2,-1]],True,ValueError,
+         "les indices doivent être des nombres entiers compris entre 0 et 5"],
+        [[[1,2,10]],True,ValueError,
+         "les indices doivent être des nombres entiers compris entre 0 et 5"],
+        [[[1,2,3]],1,TypeError,
+         "Premiere_pose doit être un booléen"],
+        [[[1,2,1]],True,ValueError,
+        "Tous les indices doivent être différent"],
+        [[[0,1,3]],True,ValueError,
+        "(Roi de coeur, Roi de carreau, 8 de coeur) n'est pas une combinaison valide"],
+    ],
+)
+def test_erreur_poser(main_pose, indices_combinaison, premiere_pose,
+                        type_erreur, message_erreur):
+    with pytest.raises(type_erreur, match=re.escape(message_erreur)):
+        main_pose.poser(indices_combinaison, premiere_pose)
+
+# Pour 1er pose, Test de nombre de point et de presence de suite
+@pytest.mark.parametrize(
+    "main,indices_combinaison, type_erreur, message_erreur",
+    [[Main([pytest.deux_coeur, pytest.deux_carreau, pytest.deux_trefle,
+                  pytest.huit_coeur,pytest.neuf_coeur, pytest.dix_coeur]),
+    [[0,1,2],[3,4,5]],ValueError,"Pour la 1ere pose il faut au moins 51 points pour poser"],
+    #[Main([pytest.roi_coeur, pytest.roi_carreau, pytest.roi_trefle,
+    #              pytest.huit_coeur,pytest.huit_carreau, pytest.huit_trefle]),
+    #[[0,1,2],[3,4,5]],ValueError,"Il n'y a pas de suite"],
+    ],
+)
+def test_erreur_poser(main, indices_combinaison,
+                        type_erreur, message_erreur):
+    with pytest.raises(type_erreur, match=re.escape(message_erreur)):
+        main.poser(indices_combinaison, True)
