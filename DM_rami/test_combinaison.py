@@ -40,7 +40,7 @@ def test_eq():
 
     #THEN
     assert combi1 == combi2
-    assert combi1 != combi3
+    assert combi1 == combi3
     assert combi1 != "string"  # Comparaison avec un autre type
 
 
@@ -51,11 +51,11 @@ def test_est_brelan():
     c2 = Carte("As", "Coeur")
     c3 = Carte("As", "Carreau")
     c4 = Carte("Roi", "Pique")
-    
+
     # WHEN
     combi_brelan = Combinaison((c1, c2, c3))
     combi_pas_brelan = Combinaison((c1, c2, c4))
-    
+
     #THEN
     assert combi_brelan.est_brelan() is True
     assert combi_pas_brelan.est_brelan() is False
@@ -71,9 +71,9 @@ def test_est_carre():
     c5 = Carte("Roi", "Pique")
 
      # WHEN
-    combi_carre = Combinaison((c1, c2, c3, c4))   
+    combi_carre = Combinaison((c1, c2, c3, c4))
     combi_pas_carre = Combinaison((c1, c2, c3, c5))
-    
+
     #THEN
     assert combi_carre.est_carre() is True
     assert combi_pas_carre.est_carre() is False
@@ -88,9 +88,9 @@ def test_est_sequence():
     c4 = Carte("As", "Coeur")
 
     #WHEN
-    combi_sequence = Combinaison((c1, c2, c3)) 
+    combi_sequence = Combinaison((c1, c2, c3))
     combi_pas_sequence = Combinaison((c1, c2, c4))  # Couleurs différentes
-    
+
     #THEN
     assert combi_pas_sequence.est_sequence() is False
     assert combi_sequence.est_sequence() is True
@@ -109,9 +109,9 @@ def test_est_valide():
     combi_brelan = Combinaison((c1, c2, c3))
     combi_carre = Combinaison((c1, c2, c3, c4))
     combi_invalide = Combinaison((c1, c2, c5))
-    
+
     #THEN
-    assert combi_brelan.est_valide() is True  
+    assert combi_brelan.est_valide() is True
     assert combi_carre.est_valide() is True
     assert combi_invalide.est_valide() is False
 
@@ -127,7 +127,7 @@ def test_calcule_nombre_points():
     #WHEN
     combi_brelan = Combinaison((c1, c2, c3))
     combi_carre = Combinaison((c1, c2, c3, c4))
-    
+
     #THEN
     assert combi_brelan.calcule_nombre_points() == 33  # Chaque As vaut 11
     assert combi_carre.calcule_nombre_points() == 44 # Chaque As vaut 11

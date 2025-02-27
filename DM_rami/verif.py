@@ -7,7 +7,7 @@
 
 from carte import Carte
 from base import _ListeCartes
-from combinaisonv2 import Combinaison
+from combinaison import Combinaison
 from reserve import Reserve
 from main import Main
 
@@ -34,6 +34,6 @@ from main import Main
 #main2 = Main([Carte("3","Pique"),Carte("2","Pique"),Carte("5","Pique")])
 #print(main == main2)
 
-l = [[1,2],[3,4]]
-l2 = set(l)
-print(l2)
+#l = [[1,2],[3,4]]
+#l2 = set(l)
+#print(l2)

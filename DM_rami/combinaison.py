@@ -21,7 +21,7 @@ class Combinaison():
     >>> c3 = Carte("Dame","Pique")
     >>> l1 = Combinaison((c1, c2, c3))
     >>> print(l1)
-    (2 de pique, Roi de pique, Dame de pique)
+    (As de pique, Roi de pique, Dame de pique)
     """
 
     def __init__(self, cartes):
@@ -40,15 +40,16 @@ class Combinaison():
 
     def __eq__(self, other):
         """Vérifie si deux combinaisons sont égales."""
-        # 1. Prend en compte l'ordre (tester avec ordre différent renvoie False)
-        # 2. Pour moi la combinaison ne peut pas être vide -> a vérifier
-        # 3. Pas besoin de self.__cartes = orther.__cartes
-        # car on a créer la propiété cartes juste au dessus
-        if not isinstance(other.cartes, tuple):
+        if isinstance(other, Combinaison):
+            if len(self) != len(other):
+                return False
+            else:
+                for carte in self.__cartes:
+                    if carte not in other.cartes:
+                        return False
+                return True
+        else:
             return False
-        if len(other)==0 and len(self)==0:
-            return True
-        return self.cartes == other.cartes
 
     def __repr__(self):
         """Représentation officielle de la combinaison."""

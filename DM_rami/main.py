@@ -21,7 +21,7 @@ class Main(_ListeCartes):
         if len(self)!=len(other):
             return False
         else:
-            for carte in self.cartes:
+            for carte in self.__cartes:
                 if carte not in other.cartes:
                     return False
         return True
@@ -35,7 +35,7 @@ class Main(_ListeCartes):
         if not isinstance(indice, int):
             raise TypeError("Indice doit etre un entier compris entre 0 et "
                             f"{len(self)-1}")
-        if indice < 0 or indice > len(self):
+        if indice < 0 or indice >= len(self):
             raise ValueError("Indice doit etre un entier compris entre 0 et "
                             f"{len(self)-1}")
         if not isinstance(defausse,Defausse):

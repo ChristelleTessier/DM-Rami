@@ -8,23 +8,32 @@ from carte import Carte
 class _ListeCartes():
     """ Représente une liste de carte
 
-    Cette classe permet de gérer une collection de cartes, avec des fonctionnalités
-    pour l'initialisation, la manipulation (ajout, retrait), le mélange, et la comparaison
-    de listes de cartes.
+    Cette classe permet de gérer une collection de cartes, avec des fonctionnalités pour
+     - l'initialisation,
+     - l'affichage
+     - le test d'égalité
+     - le mélange
+     - la manipulation (ajout, retrait)
+
+    Parameters :
+    ------------
+        __cartes (List[Carte]): La liste interne des cartes.
+
     """
 
     def __init__(self, cartes=None):
         """
         Initialise une nouvelle instance de _ListeCartes.
 
-        Args:
-            cartes (list[Carte], optional): Une liste de cartes pour initialiser la liste.
+        Parameters :
+        ------------
+            __cartes (list[Carte], optional): Une liste de cartes pour initialiser la liste.
                 Si None, un jeu de 104 cartes est créé (deux jeux de 52 cartes).
-                Si une Carte est passé seul, une ValueError est levée.
-                Si un element de la listes n'est pas une instance de Carte, une ValueError est levée.
 
-        Raises:
-            ValueError: Si l'argument 'cartes' n'est pas None ou une liste de cartes, ou si un element de la liste n'est pas une instance de Carte.
+        Raises :
+        -------
+            ValueError : Si l'argument 'cartes' n'est pas None ou une liste de cartes,
+            ou si un element de la liste n'est pas une instance de Carte.
         """
         if cartes is not None:
             if isinstance(cartes, Carte):
@@ -41,58 +50,153 @@ class _ListeCartes():
 
     @property
     def cartes(self):
+        """Retourne une copie profonde de la liste des cartes.
+
+        Returns :
+        ---------
+            List[Carte] : Une nouvelle liste contenant une copie profonde des cartes.
+        """
         return copy.deepcopy(self.__cartes)
 
     def __repr__(self):
+        """Retourne une représentation officielle de la liste de cartes.
+
+        Returns :
+        ---------
+            str: Une chaîne de caractères représentant la liste de cartes.
+
+        Examples :
+        ---------
+        >>> liste_cartes = _ListeCartes([Carte("As","Coeur"), Carte("6","Pique")])
+        >>> print(liste_cartes.__repr__())
+        _ListeCartes[Carte(As,Coeur), Carte(6,Pique)]
+        """
         if not self.__cartes:
             return "ListeCartes[]"
         cartes_repr = [carte.__repr__() for carte in self.__cartes]
-        return "ListeCartes[" + ", ".join(cartes_repr) + "]"
+        return "_ListeCartes[" + ", ".join(cartes_repr) + "]"
 
     def __str__(self):
+        """Retourne une représentation en chaîne de caractères de la liste de cartes.
+
+        Returns :
+        -------
+            str : chaîne de caractères représentant les cartes dans la liste.
+
+        Examples :
+        ---------
+        >>> liste_cartes = _ListeCartes([Carte("As","Coeur"), Carte("6","Pique")])
+        >>> print(liste_cartes.__str__())
+        [As de coeur, 6 de pique]
+        """
         cartes_str = [carte.__str__() for carte in self.__cartes]
         return "[" + ", ".join(cartes_str) + "]"
 
     def __eq__(self, other):
+        """Retourne une représentation en chaîne de caractères de la liste de cartes.
+
+        Returns
+        -------
+            str : chaîne de caractères représentant les cartes dans la liste.
+
+        Raises :
+        ---------
+            TypeError : Si l'argument 'other' n'est pas une instance de _ListeCartes.
+
+
+        Examples :
+        ---------
+        >>> liste_cartes = _ListeCartes([Carte("As","Coeur"), Carte("6","Pique")])
+        >>> liste_cartes2 = _ListeCartes([Carte("As","Coeur"), Carte("6","Pique")])
+        >>> print(liste_cartes == liste_cartes2)
+        True
+        >>> liste_cartes3 = _ListeCartes([Carte("As","Coeur"), Carte("7","Pique")])
+        >>> print(liste_cartes == liste_cartes3)
+        False
+        """
         if not isinstance(other, _ListeCartes):
             return False
-        return sorted(self.cartes) == sorted(other.cartes)
-        # j'ai modifié car il faut que les cartes soient rangé dans l'ordre
+        if len(self) == 0 and len(other) == 0:
+            return True
+        return self.cartes == other.cartes
 
     def __len__(self):
+        """Retourne le nombre de cartes dans la liste.
+
+        Returns
+        -------
+            int : Longueur de la liste de cartes.
+
+        Examples :
+        ---------
+        >>> liste_cartes = _ListeCartes()
+        >>> print(len(liste_cartes))
+        104
+        >>> liste_cartes = _ListeCartes([Carte("As","Coeur"), Carte("6","Pique")])
+        >>> print(len(liste_cartes))
+        2
+        """
         return len(self.__cartes)
 
     def melanger(self):
-        """Mélange les cartes dans la liste."""
+        """ Mélange les cartes dans la liste.
+
+        Returns :
+        --------
+            None
+        """
         random.shuffle(self.__cartes)
 
     def ajouter_carte(self, carte):
-        """
-        Ajoute une carte à la liste.
+        """ Ajoute une carte à la liste.
 
-        Args:
+        Args :
+        ----------
             carte (Carte): La carte à ajouter.
 
         Raises:
+        ----------
             TypeError: Si l'argument 'carte' n'est pas une instance de Carte.
+
+        Returns :
+        --------
+            None
+
+        Examples :
+        ---------
+        >>> liste_cartes = _ListeCartes([Carte("As","Coeur")])
+        >>> liste_cartes.ajouter_carte(Carte("6","Pique"))
+        >>> print(liste_cartes)
+        [As de coeur, 6 de pique]
         """
         if not isinstance(carte, Carte):
             raise TypeError("L'argument 'carte' doit être une instance de Carte.")
         self.__cartes.append(carte)
 
     def retirer_carte(self, indice):
-        """
-        Retire une carte de la liste à un indice donné.
+        """ Retirer une carte de la liste à un indice donné.
 
-        Args:
+        Args :
+        -------
             indice (int): L'indice de la carte à retirer.
 
-        Returns:
+        Raises:
+        --------
+            Exception : Si la liste est vide.
+            ValueError : Si l'indice n'est pas valide.
+
+        Returns :
+        --------
             Carte: La carte retirée.
 
-        Raises:
-            Exception: Si la liste est vide.
-            ValueError: Si l'indice n'est pas valide.
+        Examples :
+        ---------
+        >>> liste_cartes = _ListeCartes([Carte("As","Coeur"), Carte("6","Pique")])
+        >>> carte_retire = liste_cartes.retirer_carte(1)
+        >>> print(carte_retire)
+        6 de pique
+        >>> print(liste_cartes)
+        [As de coeur]
         """
         if not self.__cartes:
             raise Exception("La liste de cartes est vide, aucune carte ne peut être retirée.")
