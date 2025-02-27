@@ -87,13 +87,25 @@ class Main(_ListeCartes):
             comb = Combinaison(tuple(comb_liste.cartes))
             if not comb.est_valide():
                 raise ValueError(f"{comb.__str__()} n'est pas une combinaison valide")
-            if comb.est_sequence:
+            if comb.est_sequence():
                 val_sequ = 1
             nb_point += comb.calcule_nombre_points()
             list_comb.append(comb)
-        if val_sequ == 0 and premiere_pose:
-            raise ValueError("Il n'y a pas de suite")
-        if nb_point < 52 and premiere_pose:
-            raise ValueError("Pour la 1ere pose il faut au moins 51 points pour poser")
+        if premiere_pose:
+            if val_sequ == 0:
+                raise ValueError("Il n'y a pas de suite")
+            if nb_point < 52:
+                raise ValueError("Pour la 1ere pose il faut au moins 51 points pour poser")
+
+        # On retire les cartes d'indice données
+        # Transformation de l'ensemble d'indice en tableau d'indice trier dans l'ordre
+        # décroissant
+        ensemble_indice = list(ensemble_indice)
+        ensemble_indice.sort(reverse = True)
+        for indice in ensemble_indice:
+            self.retirer_carte(indice)
+
+        # Pour première pose si il ne reste plus de carte -> les points calculer pour
+        # les adversaire seront doublé
 
         return list_comb, nb_point

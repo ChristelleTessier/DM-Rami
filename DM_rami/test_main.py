@@ -145,6 +145,8 @@ def main_pose():
          "indices_combinaison doit être une liste de liste d'entier"],
         [[["a"]],True,TypeError,
          "les indices doivent être des nombres entiers compris entre 0 et 5"],
+        [[[]],True,ValueError,
+         "() n'est pas une combinaison valide"],
         [[[1,2,-1]],True,ValueError,
          "les indices doivent être des nombres entiers compris entre 0 et 5"],
         [[[1,2,10]],True,ValueError,
@@ -168,12 +170,60 @@ def test_erreur_poser(main_pose, indices_combinaison, premiere_pose,
     [[Main([pytest.deux_coeur, pytest.deux_carreau, pytest.deux_trefle,
                   pytest.huit_coeur,pytest.neuf_coeur, pytest.dix_coeur]),
     [[0,1,2],[3,4,5]],ValueError,"Pour la 1ere pose il faut au moins 51 points pour poser"],
-    #[Main([pytest.roi_coeur, pytest.roi_carreau, pytest.roi_trefle,
-    #              pytest.huit_coeur,pytest.huit_carreau, pytest.huit_trefle]),
-    #[[0,1,2],[3,4,5]],ValueError,"Il n'y a pas de suite"],
+    [Main([pytest.roi_coeur, pytest.roi_carreau, pytest.roi_trefle,
+                  pytest.huit_coeur,pytest.huit_carreau, pytest.huit_trefle]),
+    [[0,1,2],[3,4,5]],ValueError,"Il n'y a pas de suite"],
     ],
 )
 def test_erreur_poser(main, indices_combinaison,
                         type_erreur, message_erreur):
     with pytest.raises(type_erreur, match=re.escape(message_erreur)):
         main.poser(indices_combinaison, True)
+
+# Pour pose différente de 1er pose
+@pytest.mark.parametrize(
+    "main, indices_combinaison, type_erreur, message_erreur",
+    [
+        [Main([pytest.as_carreau,pytest.as_trefle,pytest.as_coeur,pytest.deux_carreau]),
+        [[0,1,3]], ValueError,
+        "(As de carreau, As de trêfle, 2 de carreau) n'est pas une combinaison valide"],
+    ],
+)
+def test_erreur_poser(main, indices_combinaison,
+                        type_erreur, message_erreur):
+    with pytest.raises(type_erreur, match=re.escape(message_erreur)):
+        main.poser(indices_combinaison, False)
+
+# Test affichage
+# Pour première pose
+@pytest.mark.parametrize(
+    "indice, Valeur_attendue_main, Valeur_attendue_comb_posee,Valeur_attendue_point",
+    [
+    [[[0,1,2],[3,4,5]], Main([]),
+     [Combinaison((pytest.roi_coeur, pytest.roi_carreau, pytest.roi_trefle)),
+      Combinaison((pytest.huit_coeur, pytest.neuf_coeur, pytest.dix_coeur))]
+      ,60],
+    ],
+)
+def test_poser_valide(main_pose, indice, Valeur_attendue_main, Valeur_attendue_comb_posee,
+                      Valeur_attendue_point):
+    pose, point = main_pose.poser(indice,True)
+    assert main_pose == Valeur_attendue_main
+    assert pose == Valeur_attendue_comb_posee
+    assert point == Valeur_attendue_point
+
+# Pour autre pose
+@pytest.mark.parametrize(
+    "main, indice, Valeur_attendue_main, Valeur_attendue_comb_posee,Valeur_attendue_point",
+    [
+    [Main([pytest.as_carreau,pytest.as_trefle,pytest.as_coeur,pytest.deux_carreau]),
+        [[0,1,2]],Main([pytest.deux_carreau]),
+        [Combinaison((pytest.as_carreau,pytest.as_trefle,pytest.as_coeur))], 33
+    ],],
+)
+def test_poser_valide(main, indice, Valeur_attendue_main, Valeur_attendue_comb_posee,
+                      Valeur_attendue_point):
+    pose, point = main.poser(indice,False)
+    assert main == Valeur_attendue_main
+    assert pose == Valeur_attendue_comb_posee
+    assert point == Valeur_attendue_point
