@@ -1,37 +1,35 @@
 """Implémentation de la classe Defausse."""
-
-
 import random
 from base import _ListeCartes
 from carte import Carte
 
 class Defausse(_ListeCartes):
-    """Classe Defausse modélisant la liste des cartes jetées."""
-
     def __init__(self, cartes=None):
-        """
-        Initialise la défausse en appelant le constructeur de _ListeCartes.
-        :param cartes: Liste de cartes initiales (par défaut vide).
-        """
+        """Initialise la défausse."""
         if cartes is None:
-            cartes = []  # Éviter l'utilisation d'une liste mutable comme valeur par défaut
-        super().__init__(cartes)  # Utilisation correcte du constructeur parent
-
+            cartes = []  # Initialise avec une liste vide si aucun paramètre n'est donné
+        elif not isinstance(cartes, list):
+            raise ValueError("L'argument 'cartes' doit être une liste.")
+        super().__init__(cartes)  # Appelle le constructeur de _ListeCartes
+    
     def vider(self, reserve):
-        """
-        Mélange la défausse et l'ajoute à la fin de la réserve.
-        :param reserve: Instance de la classe Réserve.
-        """
-        if not self._cartes:  # Vérifie si la défausse est vide
-            return False
+        """Méthode qui vide la défausse dans la réserve."""
+        if not self.cartes:  # Utilisation du getter `cartes` pour accéder à la liste
+            return False  # Si la défausse est vide, retourne False
         
-        random.shuffle(self._cartes)  # Mélange les cartes
-        reserve._cartes.extend(self._cartes)  # Ajoute les cartes mélangées à la réserve
-        self._cartes.clear()  # Vide la défausse
-        return True  # Indique que l'opération a réussi
+        # Mélange et ajoute les cartes à la réserve
+        self.melanger()
+        for carte in self.cartes:
+            reserve.ajouter_carte(carte)
+        
+        # Réinitialise la défausse (vide les cartes) en utilisant la méthode de la classe parente
+        self.reinitialiser()  # Appel d'une méthode publique pour vider la défausse
+        return True
+    
+    def reinitialiser(self):
+        """Vider toutes les cartes de la défausse."""
+        self.cartes.clear()  # Cela vide effectivement la liste des cartes
 
     def __str__(self):
         """Affichage de la défausse sous forme de chaîne."""
-        return f"Défausse: [{', '.join(str(carte) for carte in self._cartes)}]"
-
-  
+        return f"Défausse: [{', '.join(str(carte) for carte in self.cartes)}]"
