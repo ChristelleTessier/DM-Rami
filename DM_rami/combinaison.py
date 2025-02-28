@@ -21,7 +21,7 @@ class Combinaison():
     >>> c3 = Carte("Dame","Pique")
     >>> l1 = Combinaison((c1, c2, c3))
     >>> print(l1)
-    (2 de pique, Roi de pique, Dame de pique)
+    (As de pique, Roi de pique, Dame de pique)
     """
 
     def __init__(self, cartes):
