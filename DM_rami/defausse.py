@@ -1,4 +1,3 @@
-"""Implémentation de la classe Defausse."""
 import random
 from base import _ListeCartes
 from carte import Carte
@@ -13,22 +12,31 @@ class Defausse(_ListeCartes):
         super().__init__(cartes)  # Appelle le constructeur de _ListeCartes
     
     def vider(self, reserve):
-        """Méthode qui vide la défausse dans la réserve."""
-        if not self.cartes:  # Utilisation du getter `cartes` pour accéder à la liste
-            return False  # Si la défausse est vide, retourne False
-        
-        # Mélange et ajoute les cartes à la réserve
+        """Vide la défausse et transfère les cartes dans la réserve."""
+        print(f"Avant vidage: {len(self.cartes)} cartes dans la défausse")
+        if not self.cartes:
+            # Vérifie si la défausse est vide
+            return False
+
+            
+
         self.melanger()
-        for carte in self.cartes:
+        for carte in self.cartes[:]:
+            # Copie pour éviter les modifications pendant l'itération
             reserve.ajouter_carte(carte)
-        
-        # Réinitialise la défausse (vide les cartes) en utilisant la méthode de la classe parente
-        self.reinitialiser()  # Appel d'une méthode publique pour vider la défausse
+
+        self.reinitialiser()  # Vider la défausse
+        print(f"Après vidage: {len(self.cartes)} cartes dans la défausse")  # Devrait être 0
+
         return True
-    
+
     def reinitialiser(self):
-        """Vider toutes les cartes de la défausse."""
-        self.cartes.clear()  # Cela vide effectivement la liste des cartes
+       print(f"Avant vidage: {len(self.cartes)} cartes")  # Debug
+       if isinstance(self.cartes, list):
+           self._ListeCartes__cartes.clear()
+       else:
+           print("Attention: self.cartes n'est pas une liste mutable !")
+       print(f"Après vidage: {len(self.cartes)} cartes")  # Devrait être 0
 
     def __str__(self):
         """Affichage de la défausse sous forme de chaîne."""
