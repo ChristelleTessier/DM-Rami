@@ -1,5 +1,4 @@
 """Implémentation des tests pour la classe Defausse."""
-"""Implémentation des tests pour la classe Defausse."""
 import pytest
 import random
 from defausse import Defausse
@@ -15,7 +14,7 @@ def test_defausse_initialisation_vide():
     defausse = Defausse()
     
     #THEN
-    assert len(defausse._cartes) == 0
+    assert len(defausse.cartes) == 0
     assert str(defausse) == "Défausse: []"
 
 def test_defausse_initialisation_avec_cartes():
@@ -25,7 +24,7 @@ def test_defausse_initialisation_avec_cartes():
     #WHEN
     defausse = Defausse(cartes)
     #THEN
-    assert len(defausse._cartes) == 2
+    assert len(defausse.cartes) == 2
     assert str(defausse).lower() == "défausse: [as de pique, roi de carreau]"
 
 def test_vider_defausse_vide():
@@ -36,8 +35,8 @@ def test_vider_defausse_vide():
     reserve = Reserve()
     #THEN
     assert defausse.vider(reserve) == False  # Rien à vider
-    assert len(reserve._cartes) == 0
-    assert len(defausse._cartes) == 0
+    assert len(reserve.cartes) == 0
+    assert len(defausse.cartes) == 0
 
 def test_vider_defausse_non_vide():
     """Test de la méthode vider() avec une défausse contenant des cartes."""
@@ -48,15 +47,15 @@ def test_vider_defausse_non_vide():
     reserve = Reserve()
 
     # THEN
-    assert len(defausse._cartes) == 3
-    assert len(reserve._cartes) == 0
+    assert len(defausse.cartes) == 3
+    assert len(reserve.cartes) == 0
 
     # Vider la défausse dans la réserve
     assert defausse.vider(reserve) == True
 
     # Vérifier l'état après vidage
-    assert len(defausse._cartes) == 0
-    assert len(reserve._cartes) == 3  # Les cartes doivent être transférées
+    assert len(defausse.cartes) == 0
+    assert len(reserve.cartes) == 3  # Les cartes doivent être transférées
 
 def test_vider_defausse_melange():
     """Test que les cartes sont bien mélangées avant d'être ajoutées à la réserve."""
