@@ -70,15 +70,16 @@ class Combinaison():
         False
         """
         if isinstance(other, Combinaison):
-            if len(self) != len(other):
-                return False
-            else:
-                for carte in self.__cartes:
-                    if carte not in other.cartes:
-                        return False
-                return True
-        else:
+            if other.est_valide() and self.est_valide():
+                if len(self) != len(other):
+                    return False
+                else:
+                    for carte in self.__cartes:
+                        if carte not in other.cartes:
+                            return False
+                    return True
             return False
+        return False
 
     def __repr__(self):
         """Retourne une représentation officielle de la combinaison.
