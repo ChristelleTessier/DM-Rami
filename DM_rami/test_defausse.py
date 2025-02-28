@@ -10,9 +10,9 @@ from reserve import Reserve
 def test_defausse_initialisation_vide():
     """Test de l'initialisation d'une défausse vide."""
     #GIVEN
-    
+
     defausse = Defausse()
-    
+
     #THEN
     assert len(defausse.cartes) == 0
     assert str(defausse) == "Défausse: []"
@@ -31,8 +31,8 @@ def test_vider_defausse_vide():
     """Test de la méthode vider() avec une défausse vide."""
     #GIVEN
     defausse = Defausse()
-    reserve = Reserve()
-    reserve = Reserve()
+    reserve = Reserve([])
+
     #THEN
     assert defausse.vider(reserve) == False  # Rien à vider
     assert len(reserve.cartes) == 0
@@ -44,7 +44,7 @@ def test_vider_defausse_non_vide():
     cartes = [Carte("As", "Pique"), Carte("Roi", "Coeur"), Carte("10", "Trêfle")]
     #WHEN
     defausse = Defausse(cartes)
-    reserve = Reserve()
+    reserve = Reserve([])
 
     # THEN
     assert len(defausse.cartes) == 3
@@ -63,7 +63,7 @@ def test_vider_defausse_melange():
     cartes = [Carte("As", "Pique"), Carte("Roi", "Coeur"), Carte("10", "Trêfle")]
     #WHEN
     defausse = Defausse(cartes.copy())  # Copie pour comparer plus tard
-    reserve = Reserve()
+    reserve = Reserve([])
 
     # Mélanger de façon prévisible avec un seed
     random.seed(42)
