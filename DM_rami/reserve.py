@@ -5,24 +5,31 @@ from base import _ListeCartes
 from carte import Carte
 
 class Reserve(_ListeCartes):
-    """
-    Représente une réserve de cartes, héritant des fonctionnalités de _ListeCartes.
+    """Représente une réserve de cartes.
 
-    Cette classe étend _ListeCartes pour fournir une représentation d'une réserve
-    de cartes, avec des fonctionnalités supplémentaires telles que la distribution
-    de cartes aux joueurs.
+    Cette classe hérite de _ListeCartes et représente la reserve de cartes (pioche) du
+    jeu de rami, c'est-à-dire l'ensemble des cartes qui peuvent être piochées ou
+    distribuées aux joueurs.
+
+    Elle récupère les méthodes héritées de _ListeCartes
+     - afficher une liste de carte (print).
+     - calculer la longueur d'une liste de carte
+     - mélanger une liste de carte.
+     - ajouter une carte à une liste de carte.
+     - retiter une carte d'une liste de carte.
+
+    Elle propose une fonctionnalité supplémentaire pour :
+     - distribuer les cartes aux joueurs en début de partie.
 
     Attributes
     ----------
-    cartes : list of Carte, optional
-        Liste initiale de cartes dans la réserve.
-        Par défaut, None (pour construire réserve à 2*52 cartes).
+        __cartes (list[Carte]) : La liste des cartes dans la reserve.
 
-    Methods
-    -------
-    distribuer(nb_joueur : int, idx_premier_joueur : int, n_cartes="14/15" : str)
-        Distribue les cartes aux joueurs à partir de la réserve, en commençant par
-        idx_premier_joueur.
+    Raises (Hérité de _ListeCartes)
+    ------
+        TypeError
+            Si l'argument cartes n'est pas une liste ou qu'un élement de la liste n'est
+            pas une instance de Carte.
     """
 
     def __init__(self, cartes = None):
@@ -31,8 +38,7 @@ class Reserve(_ListeCartes):
         self.__cartes = cartes
 
     def distribuer(self, nb_joueur, idx_premier_joueur, n_cartes = "14/15"):
-        """
-        Distribue les cartes aux joueurs.
+        """Distribue les cartes aux joueurs.
 
         Cette méthode distribue un nombre spécifique de cartes à chaque joueur,
         en commençant par un joueur désigné. Une carte supplémentaire est donnée
@@ -40,32 +46,29 @@ class Reserve(_ListeCartes):
 
         Parameters
         ----------
-        nb_joueur : int
-            Le nombre de joueurs participants. Doit être un entier positif entre 1 et 5.
-        idx_premier_joueur : int
-            L'indice du joueur qui commence la distribution. Doit être un entier
-            positif entre 0 et nb_joueur - 1.
-        n_cartes : str, optional
-            Une chaîne de caractères au format "nombre_cartes/nombre_cartes_supplementaire".
-            Définit le nombre de cartes à distribuer à chaque joueur et le nombre
-            de cartes supplémentaires pour le distributeur. Par défaut, "14/15".
+            nb_joueur (int): Le nombre de joueurs participants. Doit être un entier
+                positif entre 1 et 5.
+            idx_premier_joueur (int): L'indice du joueur qui commence la distribution.
+                Doit être un entier positif entre 0 et nb_joueur - 1.
+            n_cartes (str, optional): Une chaîne de caractères au format
+                "nombre_cartes/nombre_cartes_supplementaire". Définit le nombre de
+                cartes à distribuer à chaque joueur et le nombre de cartes
+                supplémentaires pour le distributeur. Par défaut, "14/15".
 
         Returns
         -------
-        list of _ListeCartes
-            Une liste de mains de cartes, où chaque élément est une instance de
-            _ListeCartes représentant la main d'un joueur. L'ordre des mains dans
+            list[Main]: Une liste de Main correspondant aux mains des joueurs
+            (chaque élément est une liste de cartes). L'ordre des mains dans
             la liste est déterminé par l'indice du premier joueur.
 
         Raises
         ------
-        TypeError
-            Si nb_joueur ou idx_premier_joueur ne sont pas des entiers, ou si
-            n_cartes n'est pas une chaîne de caractères.
-        ValueError
-            Si nb_joueur n'est pas entre 1 et 5, si idx_premier_joueur n'est pas
-            entre 0 et nb_joueur - 1, si n_cartes n'est pas "13/14" ou "14/15", ou
-            s'il n'y a pas assez de cartes dans le paquet pour la distribution.
+            TypeError: Si nb_joueur ou idx_premier_joueur ne sont pas des entiers,
+                ou si n_cartes n'est pas une chaîne de caractères.
+            ValueError: Si nb_joueur n'est pas entre 1 et 5, si idx_premier_joueur
+                n'est pas entre 0 et nb_joueur - 1, si n_cartes n'est pas "13/14"
+                ou "14/15", ou s'il n'y a pas assez de cartes dans le paquet
+                pour la distribution.
         """
         if not isinstance(nb_joueur, int):
             raise TypeError(f"Le nombre de joueur est un entier positif compris entre "

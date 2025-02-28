@@ -9,32 +9,27 @@ class _ListeCartes():
     """ Représente une liste de carte
 
     Cette classe permet de gérer une collection de cartes, avec des fonctionnalités pour
-     - l'initialisation,
-     - l'affichage
-     - le test d'égalité
-     - le mélange
-     - la manipulation (ajout, retrait)
+     - afficher une liste de carte (officiel et print).
+     - calculer la longueur d'une liste de carte
+     - tester l'égalité de deux listes de cartes.
+     - mélanger une liste de carte.
+     - ajouter une carte à une liste de carte.
+     - retiter une carte d'une liste de carte.
 
     Parameters :
     ------------
-        __cartes (List[Carte]): La liste interne des cartes.
+        __cartes (list[Carte], optional): Une liste de cartes pour initialiser la liste.
+                Si None, un jeu de 104 cartes est créé (deux jeux de 52 cartes).
+
+    Raises :
+    -------
+        ValueError : Si l'argument 'cartes' n'est pas None ou une liste de cartes,
+            ou si un element de la liste n'est pas une instance de Carte.
 
     """
 
     def __init__(self, cartes=None):
-        """
-        Initialise une nouvelle instance de _ListeCartes.
-
-        Parameters :
-        ------------
-            __cartes (list[Carte], optional): Une liste de cartes pour initialiser la liste.
-                Si None, un jeu de 104 cartes est créé (deux jeux de 52 cartes).
-
-        Raises :
-        -------
-            ValueError : Si l'argument 'cartes' n'est pas None ou une liste de cartes,
-            ou si un element de la liste n'est pas une instance de Carte.
-        """
+        """ Initialise une nouvelle instance de _ListeCartes. """
         if cartes is not None:
             if isinstance(cartes, Carte):
                 raise ValueError("L'argument 'cartes' doit être None ou une liste de cartes.")
@@ -86,22 +81,22 @@ class _ListeCartes():
         Examples :
         ---------
         >>> liste_cartes = _ListeCartes([Carte("As","Coeur"), Carte("6","Pique")])
-        >>> print(liste_cartes.__str__())
+        >>> print(liste_cartes)
         [As de coeur, 6 de pique]
         """
         cartes_str = [carte.__str__() for carte in self.__cartes]
         return "[" + ", ".join(cartes_str) + "]"
 
     def __eq__(self, other):
-        """Retourne une représentation en chaîne de caractères de la liste de cartes.
+        """Retourne si deux listes de cartes sont identiques.
 
-        Returns
-        -------
-            str : chaîne de caractères représentant les cartes dans la liste.
+        Parameters:
+        ----------
+            other (_ListeCartes): L'autre liste de cartes à comparer.
 
-        Raises :
-        ---------
-            TypeError : Si l'argument 'other' n'est pas une instance de _ListeCartes.
+        Returns:
+        --------
+            bool: True si les deux listes de cartes sont égales, False sinon.
 
 
         Examples :
