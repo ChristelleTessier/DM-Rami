@@ -35,7 +35,7 @@ class Reserve(_ListeCartes):
     def __init__(self, cartes = None):
         """ Constructeur """
         super().__init__(cartes) # Utiliser le constructeur de la classe mère (_ListeCartes)
-        self._cartes = cartes
+        self._cartes = cartes if cartes is not None else []
 
     def distribuer(self, nb_joueur, idx_premier_joueur, n_cartes = "14/15"):
         """Distribue les cartes aux joueurs.
@@ -73,14 +73,14 @@ class Reserve(_ListeCartes):
         if not isinstance(nb_joueur, int):
             raise TypeError(f"Le nombre de joueur est un entier positif compris entre "
                            f"1 et 5, la valeur {nb_joueur} n'est pas correct")
-        if nb_joueur < 0 or nb_joueur > 5:
+        if nb_joueur < 1 or nb_joueur > 5:
             raise ValueError(f"Le nombre de joueur est un entier positif compris entre "
                            f"1 et 5, la valeur {nb_joueur} n'est pas correct")
         if not isinstance(idx_premier_joueur,int):
             raise TypeError(f"L'indice du premier joueur est compris entre 0 et "
                            f"{nb_joueur}, la valeur {idx_premier_joueur} n'est "
                            "pas correct")
-        if idx_premier_joueur < 0 or idx_premier_joueur > nb_joueur:
+        if idx_premier_joueur < 0 or idx_premier_joueur >= nb_joueur:
             raise ValueError(f"L'indice du premier joueur est compris entre 0 et "
                            f"{nb_joueur}, la valeur {idx_premier_joueur} n'est "
                            "pas correct")
@@ -91,8 +91,8 @@ class Reserve(_ListeCartes):
             raise ValueError("La valeur n_cartes est la chaine de caractère : "
                             "\"13/14\" ou \"14/15\"")
         # recuperation du nombre de carte à distribuer
-        nombres = n_cartes.split("/")
-        nombre_cartes = int(nombres[0])
+        nombre_cartes, nombre_cartes_supp = map(int, n_cartes.split("/"))
+  
 
         # Verification du nombre de carte disponible
         n_carte_need = nombre_cartes * nb_joueur + 1
@@ -104,21 +104,20 @@ class Reserve(_ListeCartes):
             nom = 'main' + str(i)
             noms_main.append(nom)
 
-        # Initialisation
-        liste_main = [_ListeCartes([]) for _ in range(nb_joueur)]
-        # liste_main = [_ListeCartes([])]*nb_joeur renvoie nb_joueur fois la même liste
+        # Initialisation des mains comme une liste de listes vides
+        mains = [[] for _ in range(nb_joueur)]
 
+        # liste_main = [_ListeCartes([])]*nb_joueur renvoie nb_joueur fois la même liste
+        
         # Remplissage des mains
         for i in range(nombre_cartes):
-            for main in liste_main:
-                main.ajouter_carte(self.retirer_carte(len(self)-1))
+            for j in range(nb_joueur):
+                index_joueur = (idx_premier_joueur + j) % nb_joueur
+                carte = self.retirer_carte(len(self) - 1)
+                mains[index_joueur].append(carte)
 
-        #Ajouter la carte supplementaire à celui qui distribue)
-        liste_main[0].ajouter_carte(self.retirer_carte(len(self)-1))
-
-        # Rearangement de l'ordre des cartes en fonction de idx_premier_joeur
-        result = [tuple()]*nb_joueur
-        for i in range(nb_joueur):
-            result[(i + idx_premier_joueur) % nb_joueur]=liste_main[i]
-
-        return result
+       # Distribution des cartes supplémentaires au distributeur
+       
+        carte = self.retirer_carte(len(self) - 1)
+        mains[idx_premier_joueur].append(carte)
+        return mains
