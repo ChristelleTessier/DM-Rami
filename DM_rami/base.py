@@ -30,6 +30,7 @@ class _ListeCartes():
 
     def __init__(self, cartes=None):
         """ Initialise une nouvelle instance de _ListeCartes. """
+        self._cartes = []
         if cartes is not None:
             if isinstance(cartes, Carte):
                 raise ValueError("L'argument 'cartes' doit être None ou une liste de cartes.")
@@ -166,7 +167,7 @@ class _ListeCartes():
         """
         if not isinstance(carte, Carte):
             raise TypeError("L'argument 'carte' doit être une instance de Carte.")
-        self.__cartes.append(carte)
+        self._cartes.append(carte)
 
     def retirer_carte(self, indice):
         """ Retirer une carte de la liste à un indice donné.
@@ -193,9 +194,9 @@ class _ListeCartes():
         >>> print(liste_cartes)
         [As de coeur]
         """
-        if not self.__cartes:
+        if not self._cartes:
             raise Exception("La liste de cartes est vide, aucune carte ne peut être retirée.")
-        if not isinstance(indice, int) or indice >= len(self.__cartes) or indice < 0:
+        if not isinstance(indice, int) or indice >= len(self._cartes) or indice < 0:
             if isinstance(indice, str):
                 raise ValueError(
                     f"L'indice de la carte à retirer n'est pas valide. "
@@ -208,4 +209,4 @@ class _ListeCartes():
                     f"L'indice doit être un entier compris entre 0 et {len(self.__cartes) - 1} inclus, "
                     f"mais l'indice est {indice}."
                 )
-        return self.__cartes.pop(indice)
+        return self._cartes.pop(indice)
