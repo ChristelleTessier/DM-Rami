@@ -1,12 +1,11 @@
-import random
 from base import _ListeCartes
-from reserve import Reserve
-from carte import Carte
+
 
 class Defausse(_ListeCartes):
     """Initialise la défausse.
 
-    La classe Defausse permet de modéliser la défausse, c’est-à-dire la liste des cartes jetées.
+    La classe Defausse permet de modéliser la défausse,
+    c’est-à-dire la liste des cartes jetées.
 
 
     Attributes
@@ -21,8 +20,9 @@ class Defausse(_ListeCartes):
 
     def __init__(self, cartes=None):
         """ Constructeur de la classe Defausse."""
+        # Initialise avec une liste vide si aucun paramètre n'est donné
         if cartes is None:
-            cartes = []  # Initialise avec une liste vide si aucun paramètre n'est donné
+            cartes = []
         elif not isinstance(cartes, list):
             raise ValueError("L'argument 'cartes' doit être une liste.")
         super().__init__(cartes)  # Appelle le constructeur de _ListeCartes
@@ -39,14 +39,11 @@ class Defausse(_ListeCartes):
         >>> defausse = Defausse([Carte("As","Coeur"), Carte("6","Pique")])
         >>> reserve = Reserve([])
         >>> defausse.vider(reserve)
-        Avant vidage: 2 cartes dans la défausse
-        Avant vidage: 2 cartes
-        Après vidage: 0 cartes
-        Après vidage: 0 cartes dans la défausse
-        True
+        >>> print(len(defausse))
+        0
+        >>> print(len(reserve))
+        2
         """
-
-        print(f"Avant vidage: {len(self.cartes)} cartes dans la défausse")
         if not self.cartes:
             # Vérifie si la défausse est vide
             return False
@@ -57,7 +54,6 @@ class Defausse(_ListeCartes):
             reserve.ajouter_carte(carte)
 
         self.reinitialiser()  # Vider la défausse
-        print(f"Après vidage: {len(self.cartes)} cartes dans la défausse")  # Devrait être 0
 
         return True
 
@@ -70,15 +66,13 @@ class Defausse(_ListeCartes):
         ---------
         >>> defausse = Defausse([Carte("As","Coeur"), Carte("6","Pique")])
         >>> defausse.reinitialiser()
-        Avant vidage: 2 cartes
-        Après vidage: 0 cartes
+        >>> print(len(defausse))
+        0
         """
-        print(f"Avant vidage: {len(self.cartes)} cartes")  # Debug
         if isinstance(self.cartes, list):
-           self._ListeCartes__cartes.clear()
+            self._ListeCartes__cartes.clear()
         else:
-           print("Attention: self.cartes n'est pas une liste mutable !")
-        print(f"Après vidage: {len(self.cartes)} cartes")  # Devrait être 0
+            print("Attention: self.cartes n'est pas une liste mutable !")
 
     def __str__(self):
         """Affichage de la défausse sous forme de chaîne.
