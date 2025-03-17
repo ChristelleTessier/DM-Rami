@@ -2,7 +2,7 @@
 
 
 from base import _ListeCartes
-from carte import Carte
+
 
 class Reserve(_ListeCartes):
     """Représente une réserve de cartes.
@@ -32,12 +32,13 @@ class Reserve(_ListeCartes):
             pas une instance de Carte.
     """
 
-    def __init__(self, cartes = None):
+    def __init__(self, cartes=None):
         """ Constructeur """
-        super().__init__(cartes) # Utiliser le constructeur de la classe mère (_ListeCartes)
+        # Utiliser le constructeur de la classe mère (_ListeCartes)
+        super().__init__(cartes)
         self._cartes = cartes if cartes is not None else []
 
-    def distribuer(self, nb_joueur, idx_premier_joueur, n_cartes = "14/15"):
+    def distribuer(self, nb_joueur, idx_premier_joueur, n_cartes="14/15"):
         """Distribue les cartes aux joueurs.
 
         Cette méthode distribue un nombre spécifique de cartes à chaque joueur,
@@ -71,28 +72,40 @@ class Reserve(_ListeCartes):
                 pour la distribution.
         """
         if not isinstance(nb_joueur, int):
-            raise TypeError(f"Le nombre de joueur est un entier positif compris entre "
-                           f"1 et 5, la valeur {nb_joueur} n'est pas correct")
+            raise TypeError(
+                f"Le nombre de joueur est un entier positif compris entre "
+                f"1 et 5, la valeur {nb_joueur} n'est pas correct"
+                )
         if nb_joueur < 1 or nb_joueur > 5:
-            raise ValueError(f"Le nombre de joueur est un entier positif compris entre "
-                           f"1 et 5, la valeur {nb_joueur} n'est pas correct")
-        if not isinstance(idx_premier_joueur,int):
-            raise TypeError(f"L'indice du premier joueur est compris entre 0 et "
-                           f"{nb_joueur}, la valeur {idx_premier_joueur} n'est "
-                           "pas correct")
+            raise ValueError(
+                f"Le nombre de joueur est un entier positif compris entre "
+                f"1 et 5, la valeur {nb_joueur} n'est pas correct"
+                )
+        if not isinstance(idx_premier_joueur, int):
+            raise TypeError(
+                f"L'indice du premier joueur est compris entre 0 et "
+                f"{nb_joueur}, la valeur {idx_premier_joueur} n'est "
+                "pas correct"
+                )
         if idx_premier_joueur < 0 or idx_premier_joueur >= nb_joueur:
-            raise ValueError(f"L'indice du premier joueur est compris entre 0 et "
-                           f"{nb_joueur}, la valeur {idx_premier_joueur} n'est "
-                           "pas correct")
-        if not isinstance(n_cartes,str):
-            raise TypeError("La valeur n_cartes est la chaine de caractère : "
-                            "\"13/14\" ou \"14/15\"")
+            raise ValueError(
+                f"L'indice du premier joueur est compris entre 0 et "
+                f"{nb_joueur}, la valeur {idx_premier_joueur} n'est "
+                "pas correct"
+                )
+        if not isinstance(n_cartes, str):
+            raise TypeError(
+                "La valeur n_cartes est la chaine de caractère : "
+                "\"13/14\" ou \"14/15\""
+                )
         if n_cartes != "13/14" and n_cartes != "14/15":
-            raise ValueError("La valeur n_cartes est la chaine de caractère : "
-                            "\"13/14\" ou \"14/15\"")
+            raise ValueError(
+                "La valeur n_cartes est la chaine de caractère : "
+                "\"13/14\" ou \"14/15\""
+                )
+
         # recuperation du nombre de carte à distribuer
         nombre_cartes, nombre_cartes_supp = map(int, n_cartes.split("/"))
-
 
         # Verification du nombre de carte disponible
         n_carte_need = nombre_cartes * nb_joueur + 1
@@ -106,8 +119,6 @@ class Reserve(_ListeCartes):
 
         # Initialisation des mains comme une liste de listes vides
         mains = [[] for _ in range(nb_joueur)]
-
-        # liste_main = [_ListeCartes([])]*nb_joueur renvoie nb_joueur fois la même liste
 
         # Remplissage des mains
         for i in range(nombre_cartes):
