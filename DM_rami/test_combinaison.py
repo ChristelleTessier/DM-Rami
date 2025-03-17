@@ -122,10 +122,10 @@ def test_est_brelan():
     combi_pas_brelan3 = Combinaison((c1, c2, c5))  # Deux fois la même carte
 
     #THEN
-    assert combi_brelan.est_brelan() is True
-    assert combi_pas_brelan.est_brelan() is False
-    assert combi_pas_brelan2.est_brelan() is False
-    assert combi_pas_brelan3.est_brelan() is False
+    assert combi_brelan.est_brelan
+    assert not combi_pas_brelan.est_brelan
+    assert not combi_pas_brelan2.est_brelan 
+    assert not combi_pas_brelan3.est_brelan
 
 
 # Test de la détection d'un carré
@@ -146,10 +146,10 @@ def test_est_carre():
     combi_pas_carre3 = Combinaison((c1, c2, c4, c6))  # Deux fois la même carte
 
     #THEN
-    assert combi_carre.est_carre() is True
-    assert combi_pas_carre.est_carre() is False
-    assert combi_pas_carre2.est_carre() is False
-    assert combi_pas_carre3.est_carre() is False
+    assert combi_carre.est_carre is True
+    assert combi_pas_carre.est_carre is False
+    assert combi_pas_carre2.est_carre is False
+    assert combi_pas_carre3.est_carre is False
 
 # Test de la détection d'une séquence
 def test_est_sequence():
