@@ -1,6 +1,5 @@
 """Implémentation de la classe Main."""
 
-from carte import Carte
 from base import _ListeCartes
 from reserve import Reserve
 from defausse import Defausse
@@ -36,12 +35,13 @@ class Main(_ListeCartes):
             Si l'argument cartes n'est pas une liste ou qu'un élement de la liste n'est
             pas une instance de Carte.
     """
-    def __init__(self, cartes = []):
+    def __init__(self, cartes=[]):
         """ Constructeur """
-        super().__init__(cartes) # Utiliser le constructeur de la classe mère (_ListeCartes)
+        # Utiliser le constructeur de la classe mère (_ListeCartes)
+        super().__init__(cartes)
         self.__cartes = cartes
 
-    def __eq__(self,other : _ListeCartes):
+    def __eq__(self, other: _ListeCartes):
         """Vérifie si deux mains sont égales (contiennent les mêmes cartes, sans tenir
         compte de l'ordre).
 
@@ -63,7 +63,7 @@ class Main(_ListeCartes):
         >>> print(main1 == main3)
         False
         """
-        if isinstance(other,Main):
+        if isinstance(other, Main):
             if len(self) != len(other):
                 return False
             else:
@@ -71,7 +71,7 @@ class Main(_ListeCartes):
                     if carte not in other.cartes:
                         return False
                 return True
-        else :
+        else:
             return False
 
     def piocher(self, reserve):
@@ -102,14 +102,16 @@ class Main(_ListeCartes):
 
         Parameters
         ----------
-            indice (int): L'indice de la carte à jeter dans la main (0 à len(main) - 1).
+            indice (int): L'indice de la carte à jeter dans la main
+                (0 à len(main) - 1).
             defausse (Defausse): La défausse dans laquelle jeter la carte.
 
         Raises
         -------
             TypeError: Si l'argument indice n'est pas un entier ou l'argument
                 defausse n'est pas une instance de Defausse.
-            ValueError: Si l'argument indice n'est pas compris entre 0 et len(self) - 1.
+            ValueError: Si l'argument indice n'est pas compris entre 0 et
+                len(self) - 1.
 
         Examples
         --------
@@ -122,12 +124,16 @@ class Main(_ListeCartes):
         Défausse: [As de pique]
         """
         if not isinstance(indice, int):
-            raise TypeError("Indice doit etre un entier compris entre 0 et "
-                            f"{len(self)-1}")
+            raise TypeError(
+                "Indice doit etre un entier compris entre 0 et "
+                f"{len(self)-1}"
+                )
         if indice < 0 or indice >= len(self):
-            raise ValueError("Indice doit etre un entier compris entre 0 et "
-                            f"{len(self)-1}")
-        if not isinstance(defausse,Defausse):
+            raise ValueError(
+                "Indice doit etre un entier compris entre 0 et "
+                f"{len(self)-1}"
+                )
+        if not isinstance(defausse, Defausse):
             raise TypeError("defausse représente la defausse de carte")
         carte = self.retirer_carte(indice)
         defausse.ajouter_carte(carte)
@@ -175,21 +181,23 @@ class Main(_ListeCartes):
         66
         """
         # Lève l'erreur de type indices_combinaison
-        if not isinstance(indices_combinaison,list):
-            raise TypeError("indices_combinaison doit être une liste de liste d'entier")
+        if not isinstance(indices_combinaison, list):
+            raise TypeError(
+                "indices_combinaison doit être une liste de liste d'entier"
+                )
         ensemble_indice = set()
         nb_indice = 0
         for combinaison in indices_combinaison:
             # Lève l'erreur de type indices_combinaison
-            if not isinstance(combinaison,list):
+            if not isinstance(combinaison, list):
                 raise TypeError(
                     "indices_combinaison doit être une liste de liste d'entier")
             # Lève l'erreur de type/Valeurs indices
             for indice in combinaison:
-                if not isinstance(indice,int):
+                if not isinstance(indice, int):
                     raise TypeError(
-                        "les indices doivent être des nombres entiers compris entre 0 "
-                        f"et {len(self)-1}")
+                        "les indices doivent être des nombres entiers compris "
+                        f"entre 0 et {len(self)-1}")
                 if indice < 0 or indice > len(self):
                     raise ValueError(
                         "les indices doivent être des nombres entiers compris entre 0 "
@@ -225,13 +233,15 @@ class Main(_ListeCartes):
             if val_sequ == 0:
                 raise ValueError("Il n'y a pas de suite")
             if nb_point < 52:
-                raise ValueError("Pour la 1ere pose il faut au moins 51 points pour poser")
+                raise ValueError(
+                    "Pour la 1ere pose il faut au moins 51 points pour poser"
+                    )
 
         # On retire les cartes d'indice données
         # Transformation de l'ensemble d'indice en tableau d'indice trier dans l'ordre
         # décroissant
         ensemble_indice = list(ensemble_indice)
-        ensemble_indice.sort(reverse = True)
+        ensemble_indice.sort(reverse=True)
         for indice in ensemble_indice:
             self.retirer_carte(indice)
 
