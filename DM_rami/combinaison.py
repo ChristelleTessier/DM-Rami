@@ -137,7 +137,7 @@ class Combinaison():
         """
         return len(self.__cartes)
 
-    def est_brelan(self):
+    def __est_brelan(self):
         """Vérifie si la combinaison est un brelan.
 
         Un brelan est une combinaison de 3 cartes de même valeur et de couleurs différentes.
@@ -152,11 +152,11 @@ class Combinaison():
         >>> c2 = Carte("As", "Coeur")
         >>> c3 = Carte("As", "Carreau")
         >>> combi1 = Combinaison((c1,c2,c3))
-        >>> print(combi1.est_brelan())
+        >>> print(combi1.__est_brelan())
         True
         >>> c4 = Carte("Roi", "Pique")
         >>> combi2 = Combinaison((c1,c2,c4))
-        >>> print(combi2.est_brelan())
+        >>> print(combi2.__est_brelan())
         False
         """
         if len(self) != 3:
@@ -167,8 +167,12 @@ class Combinaison():
             return True
         else:
             return False
+        
+    @property
+    def est_brelan(self):
+        return self.__est_brelan()
 
-    def est_carre(self):
+    def __est_carre(self):
         """Vérifie si la combinaison est un carré.
 
         Un carré est une combinaison de 4 cartes de même valeur et de couleurs différentes.
@@ -184,11 +188,11 @@ class Combinaison():
         >>> c3 = Carte("As", "Carreau")
         >>> c4 = Carte("As", "Trêfle")
         >>> combi1 = Combinaison((c1,c2,c3,c4))
-        >>> print(combi1.est_carre())
+        >>> print(combi1.__est_carre())
         True
         >>> c5 = Carte("Roi", "Pique")
         >>> combi2 = Combinaison((c1,c2,c3,c5))
-        >>> print(combi2.est_carre())
+        >>> print(combi2.__est_carre())
         False
         """
         if len(self) != 4:
@@ -199,6 +203,10 @@ class Combinaison():
             return True
         else:
             return False
+        
+    @property
+    def est_carre(self):
+        return self.__est_carre()
 
     def est_sequence(self):
         """Vérifie si la combinaison est une suite.
@@ -266,7 +274,7 @@ class Combinaison():
         >>> print(combi_invalide.est_valide())
         False
         """
-        return self.est_brelan() or self.est_carre() or self.est_sequence()
+        return self.est_brelan or self.est_carre or self.est_sequence()
 
     def calcule_nombre_points(self):
         """Calcule le nombre de points de la combinaison.
