@@ -36,9 +36,7 @@ class Carte:
         POINT : dictionnaire des points de chaque cartes (l'as est initialisé à 11)
             {"As": 11, "2": 2, "3": 3, "4": 4, "5": 5, "6": 6, "7": 7, "8": 8,
                 "9": 9, "10": 10, "Valet": 11, "Dame": 11, "Roi": 11}
-
     """
-
 
     def __init__(self, valeur, couleur):
         """ Initialise une nouvelle instance de Carte. """

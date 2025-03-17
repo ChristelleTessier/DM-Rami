@@ -92,7 +92,7 @@ class Reserve(_ListeCartes):
                             "\"13/14\" ou \"14/15\"")
         # recuperation du nombre de carte à distribuer
         nombre_cartes, nombre_cartes_supp = map(int, n_cartes.split("/"))
-  
+
 
         # Verification du nombre de carte disponible
         n_carte_need = nombre_cartes * nb_joueur + 1
@@ -108,7 +108,7 @@ class Reserve(_ListeCartes):
         mains = [[] for _ in range(nb_joueur)]
 
         # liste_main = [_ListeCartes([])]*nb_joueur renvoie nb_joueur fois la même liste
-        
+
         # Remplissage des mains
         for i in range(nombre_cartes):
             for j in range(nb_joueur):
@@ -116,8 +116,8 @@ class Reserve(_ListeCartes):
                 carte = self.retirer_carte(len(self) - 1)
                 mains[index_joueur].append(carte)
 
-       # Distribution des cartes supplémentaires au distributeur
-       
+        # Distribution des cartes supplémentaires au distributeur
+
         carte = self.retirer_carte(len(self) - 1)
         mains[idx_premier_joueur].append(carte)
         return mains

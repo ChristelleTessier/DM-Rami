@@ -30,7 +30,7 @@ class _ListeCartes():
 
     def __init__(self, cartes=None):
         """ Initialise une nouvelle instance de _ListeCartes. """
-        self._cartes = []
+        #self._cartes = []
         if cartes is not None:
             if isinstance(cartes, Carte):
                 raise ValueError("L'argument 'cartes' doit être None ou une liste de cartes.")

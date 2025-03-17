@@ -6,11 +6,9 @@ from carte import Carte
 from base import _ListeCartes
 from reserve import Reserve
 
-
 def test_defausse_initialisation_vide():
     """Test de l'initialisation d'une défausse vide."""
     #GIVEN
-
     defausse = Defausse()
 
     #THEN
