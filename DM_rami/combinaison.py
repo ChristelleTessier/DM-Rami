@@ -6,7 +6,8 @@ from carte import Carte
 class Combinaison():
     """Figure du rami (brelan, carré, suite).
 
-    Cette classe permet de gérer une combinaison de cartes, avec des fonctionnalités pour
+    Cette classe permet de gérer une combinaison de cartes,
+    avec des fonctionnalités pour
      - l'affichage
      - le test d'égalité
      - vérifier si brelan, carré ou suite.
